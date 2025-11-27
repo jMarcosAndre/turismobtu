@@ -60,7 +60,6 @@ public class ListaLocaisAdapter extends RecyclerView.Adapter<ListaLocaisAdapter.
             image = v.findViewById(R.id.img);
             title = v.findViewById(R.id.title);
             sub = v.findViewById(R.id.subtitle);
-            btnMore = v.findViewById(R.id.btn_more);
             btnMap = v.findViewById(R.id.btn_map);
         }
     }

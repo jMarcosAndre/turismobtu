@@ -58,10 +58,5 @@ public class ListaLocaisActivity extends AppCompatActivity {
             }
         }));
 
-
-        Spinner sp = findViewById(R.id.sp_order);
-        findViewById(R.id.btn_apply_filters).setOnClickListener(v ->
-                FerramentasApp.toast(this, "Ordenar por: " + sp.getSelectedItem())
-        );
     }
 }
