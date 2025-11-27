@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.curso.turismobtu">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!-- Localização: declare as duas -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.Turismo">
+
+        <!-- API Key do Google Maps (SDK Android) -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="SUA_CHAVE_DE_API_AQUI" />
+
+        <!-- Splash é a tela inicial -->
+        <activity
+            android:name=".InicializacaoActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ExperienciaARA"
+            android:exported="false"/>
+
+        <!-- Main com a bottom bar -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <!-- 6) Telas de Lista e Detalhe -->
+        <activity
+            android:name=".ListaLocaisActivity"
+
+            android:exported="false" />
+        <activity
+            android:name=".DetalheLocalActivity"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

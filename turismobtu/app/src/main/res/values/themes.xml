@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.Turismo" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
+        <item name="colorSurface">@color/surface</item>
+        <!-- Remova a linha do @font/roboto ou troque por sistema: -->
+        <!-- <item name="android:fontFamily">sans-serif</item> -->
+    </style>
+
+</resources>

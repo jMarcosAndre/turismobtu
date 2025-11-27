@@ -1,0 +1,67 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/bg"
+        android:scaleType="centerCrop"
+        android:src="@drawable/turismo"
+        android:layout_width="match_parent" android:layout_height="match_parent"/>
+
+    <View android:layout_width="match_parent" android:layout_height="match_parent"
+        android:background="#66000000"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="bottom"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minha Cidade Botucatu"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:text="Descubra lugares incríveis perto de você."
+            android:textColor="#B3FFFFFF"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_login"
+                style="?attr/materialButtonStyle"
+                android:text="Entrar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:backgroundTint="@color/grad_end"
+                android:textColor="@android:color/white"/>
+
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="1dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_guest"
+                style="?attr/materialButtonOutlinedStyle"
+                android:text="Entrar sem login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+            app:strokeColor="@color/grad_end"
+            app:strokeWidth="1dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

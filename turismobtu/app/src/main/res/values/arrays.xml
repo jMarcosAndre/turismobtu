@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="order_options">
+        <item>Popular</item>
+        <item>Mais perto</item>
+        <item>Melhor nota</item>
+    </string-array>
+</resources>

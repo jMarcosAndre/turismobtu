@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical" android:padding="16dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <!-- Header imagem -->
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/sub"
+            android:textColor="@color/text_secondary"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+
+        <!-- === Seção: Sobre === -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="20dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/line">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        app:tint="@color/text_secondary"
+                        app:srcCompat="@android:drawable/ic_menu_info_details"
+                        android:layout_width="20dp" android:layout_height="20dp"/>
+                    <TextView
+                        android:text="Sobre"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_about"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/text_primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- === Seção: Endereço === -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="20dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/line">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        app:tint="@color/text_secondary"
+                        app:srcCompat="@android:drawable/ic_dialog_map"
+                        android:layout_width="20dp" android:layout_height="20dp"/>
+                    <TextView
+                        android:text="Endereço"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- === Seção: Horário === -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="20dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/line">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        app:tint="@color/text_secondary"
+                        app:srcCompat="@android:drawable/ic_menu_recent_history"
+                        android:layout_width="20dp" android:layout_height="20dp"/>
+                    <TextView
+                        android:text="Horário"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_schedule"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- === Ações (3 botões) === -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_map"
+                style="?attr/materialButtonStyle"
+                android:text="Ver no mapa (GPS)"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <View android:layout_width="match_parent" android:layout_height="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ar"
+                style="?attr/materialButtonOutlinedStyle"
+                android:text="Experiência AR (mock)"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <View android:layout_width="match_parent" android:layout_height="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_fav"
+                style="?attr/materialButtonOutlinedStyle"
+                android:text="Salvar nos favoritos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

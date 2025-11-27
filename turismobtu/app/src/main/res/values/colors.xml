@@ -1,0 +1,10 @@
+
+<resources>
+    <color name="grad_start">#0D1B52</color>
+    <color name="grad_end">#3B63FF</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="line">#E2E8F0</color>
+
+</resources>
