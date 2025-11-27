@@ -25,8 +25,14 @@ public class DetalheLocalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_place_detail);
 
         String id = getIntent().getStringExtra("placeId");
-        PontoTuristico p = BaseDeDados.PLACES.stream().filter(x -> x.id.equals(id)).findFirst().orElse(null);
-        if (p == null) { finish(); return; }
+
+        PontoTuristico p = GerenciadorEstado.get().getPontoById(id);
+
+        if (p == null) {
+            FerramentasApp.toast(this, "Erro: Ponto turístico não encontrado ou não carregado.");
+            finish();
+            return;
+        }
 
         ImageView img = findViewById(R.id.img);
         Glide.with(this).load(p.imageUrl).centerCrop().into(img);
@@ -42,7 +48,6 @@ public class DetalheLocalActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_schedule))
                 .setText("Seg–Sex: 09:00–18:00 • Sáb/Dom: 10:00–17:00");
 
-        //  Botões
         findViewById(R.id.btn_map).setOnClickListener(v ->
                 FerramentasApp.toast(this, "Abrir rotas (simulado) para: " + p.name)
         );
@@ -52,7 +57,6 @@ public class DetalheLocalActivity extends AppCompatActivity {
                 startActivity(ExperienciaARA.intent(this, p.name))
         );
 
-        // Favoritar / Remover
         MaterialButton btnFav = findViewById(R.id.btn_fav);
         boolean isFav = GerenciadorEstado.get().isFavorite(p.id);
         updateFavButton(btnFav, isFav);

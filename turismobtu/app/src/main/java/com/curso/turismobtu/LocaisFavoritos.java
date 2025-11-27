@@ -32,7 +32,7 @@ public class LocaisFavoritos extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        render();   // quando volta do detalhe, atualiza
+        render();
     }
 
     private void render() {

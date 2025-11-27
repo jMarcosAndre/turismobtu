@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -32,32 +33,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapaTuristicoFragment extends Fragment {
+
+public class MapaTuristicoFragment extends Fragment implements DataLoadListener {
 
     private MapView map;
     private MyLocationNewOverlay myLocationOverlay;
     private String filterCategory = null;
+
+
+    private FirebaseDataManager dataManager;
+    private List<PontoTuristico> currentPoints;
+
     private final List<String> categorias = Arrays.asList(
-            "Todos",
-            "Museus",
-            "Esportes",
-            "Cachoeiras",
-            "Restaurantes",
-            "Parques",
-            "Eventos",
-            "Hospedagem",
-            "Compras"
+            "Todos", "Museus", "Esportes", "Cachoeiras", "Restaurantes",
+            "Parques", "Eventos", "Mirantes", "Compras"
     );
 
     private final Map<String, Integer> colorByCat = new HashMap<String, Integer>() {{
-        put("Museus", 0xFF3B82F6);       // azul
-        put("Esportes", 0xFF22C55E);     // verde
-        put("Cachoeiras", 0xFF06B6D4);   // ciano
-        put("Restaurantes", 0xFFFF2E8B); // magenta
-        put("Parques", 0xFF84CC16);      // “lime”
-        put("Eventos", 0xFFF97316);      // laranja
-        put("Hospedagem", 0xFF7C3AED);   // roxo
-        put("Compras", 0xFFF59E0B);      // amarelo
+        put("Museus", 0xFF3B82F6);
+        put("Esportes", 0xFF22C55E);
+        put("Cachoeiras", 0xFF06B6D4);
+        put("Restaurantes", 0xFFFF2E8B);
+        put("Parques", 0xFF84CC16);
+        put("Eventos", 0xFFF97316);
+        put("Mirantes", 0xFF7C3AED);
+        put("Compras", 0xFFF59E0B);
     }};
 
     private final ActivityResultLauncher<String> reqLocation =
@@ -65,10 +65,17 @@ public class MapaTuristicoFragment extends Fragment {
                 if (isGranted) enableMyLocation();
             });
 
+    // 2. INICIA A BUSCA DO FIREBASE ASSÍNCRONA ANTES DA VIEW
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dataManager = new FirebaseDataManager();
+        dataManager.fetchAllPontos(this);
+    }
+
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map, container, false);
-
 
         Configuration.getInstance().setUserAgentValue(requireContext().getPackageName());
 
@@ -77,13 +84,12 @@ public class MapaTuristicoFragment extends Fragment {
         map.getController().setZoom(12.0);
         map.getController().setCenter(new GeoPoint(-22.90, -47.06)); // centro mock
 
+        // Adiciona os chips de filtro
         ChipGroup chips = v.findViewById(R.id.chips);
         for (String c : categorias) {
             Chip chip = new Chip(requireContext());
             chip.setText(c);
             chip.setCheckable(true);
-
-
             chip.setChipBackgroundColorResource(android.R.color.white);
             chip.setRippleColorResource(android.R.color.darker_gray);
 
@@ -91,12 +97,11 @@ public class MapaTuristicoFragment extends Fragment {
 
             chip.setOnClickListener(view -> {
                 filterCategory = "Todos".equals(c) ? null : c;
-                renderMarkers();
+                renderMarkers(); // Renderiza com base nos dados do Firebase
             });
 
             chips.addView(chip);
         }
-
 
         // Permissão de localização
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -106,8 +111,23 @@ public class MapaTuristicoFragment extends Fragment {
             reqLocation.launch(Manifest.permission.ACCESS_FINE_LOCATION);
         }
 
+        // A chamada a renderMarkers() está aqui, mas só funcionará de fato depois que
+        // os dados chegarem no onDataLoaded.
         renderMarkers();
         return v;
+    }
+
+    // 3. MÉTODO CHAMADO PELO FIREBASE QUANDO OS DADOS CHEGAM
+    @Override
+    public void onDataLoaded(List<PontoTuristico> pontos) {
+        currentPoints = pontos; // Armazena a lista do Firebase
+        renderMarkers(); // Dispara a renderização do mapa com os novos dados
+    }
+
+    // 4. TRATAMENTO DE ERRO
+    @Override
+    public void onFailure(String errorMessage) {
+        Toast.makeText(getContext(), "Erro ao carregar mapa: " + errorMessage, Toast.LENGTH_LONG).show();
     }
 
     private void enableMyLocation() {
@@ -117,20 +137,25 @@ public class MapaTuristicoFragment extends Fragment {
         map.getOverlays().add(myLocationOverlay);
     }
 
+    // 5. LÓGICA DE RENDERIZAÇÃO DE MARCADORES (agora usando currentPoints)
     private void renderMarkers() {
-        map.getOverlays().removeIf(ov -> ov instanceof Marker);
-        for (PontoTuristico p : BaseDeDados.PLACES) {
-            if (filterCategory != null && !filterCategory.equals(p.category)) continue;
+        // Proteção: Só renderiza se o mapa e os dados estiverem prontos
+        if (map == null || currentPoints == null) return;
 
+        map.getOverlays().removeIf(ov -> ov instanceof Marker);
+
+        // CORREÇÃO: Usa a lista de pontos do Firebase
+        for (PontoTuristico p : currentPoints) {
+            // Lógica de filtro existente
+            if (filterCategory != null && !p.category.contains(filterCategory)) continue;
+
+            // Lógica de Marcador
             GeoPoint pt = new GeoPoint(p.lat, p.lng);
             Marker m = new Marker(map);
             m.setPosition(pt);
             m.setTitle(p.name);
             m.setSubDescription(p.district + " • ★ " + String.format("%.1f", p.rating));
-
-            // Ícone tintado por categoria
             m.setIcon(tintedPin(colorByCat.getOrDefault(p.category, 0xFF3B63FF)));
-
 
             m.setOnMarkerClickListener((marker, mapView) -> {
                 marker.showInfoWindow();

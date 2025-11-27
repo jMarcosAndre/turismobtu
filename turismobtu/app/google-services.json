@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "96298055932",
+    "project_id": "turismobtu-898a5",
+    "storage_bucket": "turismobtu-898a5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96298055932:android:052e0d90ce993dd2483f79",
+        "android_client_info": {
+          "package_name": "com.curso.turismobtu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfyfddch1Vc63IX1VsXXdxSL_vEGDdSeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
