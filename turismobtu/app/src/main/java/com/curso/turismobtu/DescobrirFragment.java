@@ -99,7 +99,7 @@ public class DescobrirFragment extends Fragment implements DataLoadListener {
                 new TipoCategoria("Parques", R.drawable.ic_map, 0xFF84CC16),
                 new TipoCategoria("Eventos", R.drawable.ic_map, 0xFFF97316),
                 new TipoCategoria("Mirantes", R.drawable.ic_person, 0xFF7C3AED),
-                new TipoCategoria("Compras", R.drawable.ic_map, 0xFFF59E0B)
+                new TipoCategoria("Religioso", R.drawable.ic_map, 0xFFF59E0B)
         );
 
 

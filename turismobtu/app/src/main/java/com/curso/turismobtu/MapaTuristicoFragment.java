@@ -1,6 +1,7 @@
 package com.curso.turismobtu;
 
 import android.Manifest;
+import android.content.Intent; // Importa Intent
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -44,13 +45,14 @@ public class MapaTuristicoFragment extends Fragment implements DataLoadListener 
     private FirebaseDataManager dataManager;
     private List<PontoTuristico> currentPoints;
 
-    // LISTA CORRIGIDA
+    // Variáveis para a centralização única
+    private boolean mapCentered = false;
+
     private final List<String> categorias = Arrays.asList(
             "Todos", "Museus", "Esportes", "Cachoeiras", "Restaurantes",
             "Parques", "Eventos", "Mirantes", "Religioso"
     );
 
-    // MAPA DE CORES CORRIGIDO
     private final Map<String, Integer> colorByCat = new HashMap<String, Integer>() {{
         put("Museus", 0xFF3B82F6);
         put("Esportes", 0xFF22C55E);
@@ -58,8 +60,8 @@ public class MapaTuristicoFragment extends Fragment implements DataLoadListener 
         put("Restaurantes", 0xFFFF2E8B);
         put("Parques", 0xFF84CC16);
         put("Eventos", 0xFFF97316);
-        put("Mirantes", 0xFF7C3AED);     // Cor de Hospedagem -> Mirantes
-        put("Religioso", 0xFFF59E0B);    // Cor de Compras -> Religioso
+        put("Mirantes", 0xFF7C3AED);
+        put("Religioso", 0xFFF59E0B);
     }};
 
     private final ActivityResultLauncher<String> reqLocation =
@@ -84,7 +86,10 @@ public class MapaTuristicoFragment extends Fragment implements DataLoadListener 
         map.setMultiTouchControls(true);
         map.getController().setZoom(12.0);
 
-        map.getController().setCenter(new GeoPoint(-22.88, -48.44));
+        // CORREÇÃO: A centralização inicial agora é feita aqui ou após o Intent
+        if (!mapCentered) {
+            map.getController().setCenter(new GeoPoint(-22.88, -48.44));
+        }
 
         ChipGroup chips = v.findViewById(R.id.chips);
         for (String c : categorias) {
@@ -92,7 +97,6 @@ public class MapaTuristicoFragment extends Fragment implements DataLoadListener 
             chip.setText(c);
             chip.setCheckable(true);
 
-            // LÓGICA DE CORES DINÂMICAS PARA O CHIP
             int color;
             if ("Todos".equals(c)) {
                 color = 0xFF666666;
@@ -142,8 +146,31 @@ public class MapaTuristicoFragment extends Fragment implements DataLoadListener 
     @Override
     public void onDataLoaded(List<PontoTuristico> pontos) {
         currentPoints = pontos;
+        // Tenta centralizar após o carregamento dos dados, se não foi centralizado pelo Intent
+        if (!mapCentered) {
+            checkIntentForCenter();
+        }
         renderMarkers();
     }
+
+    private void checkIntentForCenter() {
+        if (getActivity() != null) {
+            Intent intent = getActivity().getIntent();
+            if (intent.getBooleanExtra("NAVIGATE_TO_MAP", false)) {
+                double lat = intent.getDoubleExtra("TARGET_LAT", -22.88);
+                double lng = intent.getDoubleExtra("TARGET_LNG", -48.44);
+
+                if (map != null) {
+                    map.getController().setZoom(15.0);
+                    map.getController().setCenter(new GeoPoint(lat, lng));
+                }
+
+                // Marca como centralizado para evitar que ele volte para o centro de Botucatu
+                mapCentered = true;
+            }
+        }
+    }
+
 
     @Override
     public void onFailure(String errorMessage) {

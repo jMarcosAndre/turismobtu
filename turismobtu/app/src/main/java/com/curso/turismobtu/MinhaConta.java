@@ -1,15 +1,14 @@
 package com.curso.turismobtu;
 
+import android.content.Intent; // Importe o Intent
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
-import androidx.annotation.NonNull; // Adicionado para a anotação do onCreateView
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
-// IMPORT FALTANDO ADICIONADO AQUI
-import android.os.Bundle;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -25,7 +24,7 @@ public class MinhaConta extends Fragment {
 
     private final List<String> categories = Arrays.asList(
             "Museus","Esportes","Cachoeiras","Restaurantes",
-            "Parques","Eventos","Hospedagem","Compras"
+            "Parques","Eventos","Mirantes","Religioso"
     );
 
     @Nullable @Override
@@ -39,25 +38,30 @@ public class MinhaConta extends Fragment {
 
         renderUser();
 
-        // Lógica de Sair/Entrar
+
         btnLoginLogout.setOnClickListener(view -> {
             boolean logged = GerenciadorEstado.get().isLoggedIn();
-            if (logged) {
-                // LÓGICA DE LOGOUT CORRIGIDA: Seta o estado de deslogado
-                GerenciadorEstado.get().setLoggedIn(false);
 
-                requireActivity().startActivity(new android.content.Intent(requireActivity(), InicializacaoActivity.class));
-                requireActivity().finish();
+
+            if (logged) {
+                GerenciadorEstado.get().setLoggedIn(false);
             } else {
-                // Redireciona para a tela de Login (InicializacaoActivity)
-                requireActivity().startActivity(new android.content.Intent(requireActivity(), InicializacaoActivity.class));
-                requireActivity().finish();
+
             }
+
+
+            Intent intent = new Intent(requireActivity(), InicializacaoActivity.class);
+            requireActivity().startActivity(intent);
+            requireActivity().finish();
         });
 
-        buildPreferenceChips();
-
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        renderUser();
     }
 
     private void renderUser() {
@@ -73,24 +77,4 @@ public class MinhaConta extends Fragment {
         }
     }
 
-    private void buildPreferenceChips() {
-        chipsPrefs.removeAllViews();
-
-        for (String c : categories) {
-            Chip chip = new Chip(requireContext(), null, com.google.android.material.R.style.Widget_Material3_Chip_Filter);
-            chip.setText(c);
-            chip.setCheckable(true);
-
-
-            if ("Restaurantes".equals(c) || "Parques".equals(c)) {
-                chip.setChecked(true);
-            }
-
-            chip.setOnClickListener(v -> {
-
-            });
-
-            chipsPrefs.addView(chip);
-        }
-    }
 }

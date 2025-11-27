@@ -42,15 +42,24 @@ public class DetalheLocalActivity extends AppCompatActivity {
 
 
         ((TextView) findViewById(R.id.tv_about))
-                .setText("Um local imperdível para quem visita a cidade. Estrutura completa e experiências para todas as idades.");
-        ((TextView) findViewById(R.id.tv_address))
-                .setText("Bairro " + p.getDistrict() + " – Próximo a pontos de ônibus e estacionamentos.");
-        ((TextView) findViewById(R.id.tv_schedule))
-                .setText("Seg–Sex: 09:00–18:00 • Sáb/Dom: 10:00–17:00");
+                .setText(p.getDescription());
 
-        findViewById(R.id.btn_map).setOnClickListener(v ->
-                FerramentasApp.toast(this, "Abrir rotas (simulado) para: " + p.getName())
-        );
+        ((TextView) findViewById(R.id.tv_address))
+                .setText("Endereço: " + p.getAddress());
+
+        ((TextView) findViewById(R.id.tv_schedule))
+                .setText("Horário: " + p.getSchedule());
+
+
+        findViewById(R.id.btn_map).setOnClickListener(v -> {
+            Intent mapIntent = new Intent(this, MainActivity.class);
+            mapIntent.putExtra("NAVIGATE_TO_MAP", true);
+            mapIntent.putExtra("TARGET_LAT", p.getLat());
+            mapIntent.putExtra("TARGET_LNG", p.getLng());
+            mapIntent.putExtra("TARGET_NAME", p.getName());
+
+            startActivity(mapIntent);
+        });
 
         MaterialButton btnFav = findViewById(R.id.btn_fav);
 

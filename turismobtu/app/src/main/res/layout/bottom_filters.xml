@@ -9,8 +9,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:padding="16dp">
         <TextView
             android:text="Filtros rápidos"
             android:textStyle="bold"
@@ -22,8 +22,8 @@
             android:id="@+id/chips"
             android:layout_marginTop="12dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            app:singleSelection="true">
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_aberto"
                 android:layout_width="wrap_content"
@@ -49,9 +49,10 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_apply"
             style="?attr/materialButtonStyle"
-            android:text="Aplicar"
+            android:text="Aplicar Filtros"
             android:layout_marginTop="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

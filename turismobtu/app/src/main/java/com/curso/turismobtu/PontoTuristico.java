@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class PontoTuristico implements Serializable {
 
-    // 1. CAMPOS AGORA PRIVADOS
+
     private String id;
     private String name;
     private String category;
@@ -14,9 +14,13 @@ public class PontoTuristico implements Serializable {
     private double lat;
     private double lng;
 
-    // 2. CONSTRUTOR VAZIO (Obrigatório para o Firebase)
+
+    private String description;
+    private String address;
+    private String schedule;
+
+
     public PontoTuristico() {
-        // Inicialização de segurança
         this.id = "";
         this.name = "";
         this.category = "";
@@ -25,11 +29,14 @@ public class PontoTuristico implements Serializable {
         this.imageUrl = "";
         this.lat = 0.0;
         this.lng = 0.0;
+        this.description = "Detalhe não fornecido."; // Inicialização
+        this.address = "Endereço não fornecido.";      // Inicialização
+        this.schedule = "Horário não fornecido.";     // Inicialização
     }
 
-    // 3. CONSTRUTOR COMPLETO (Opcional, mas mantido para consistência)
     public PontoTuristico(String id, String name, String category, String district,
-                          double rating, String imageUrl, double lat, double lng) {
+                          double rating, String imageUrl, double lat, double lng,
+                          String description, String address, String schedule) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -38,9 +45,12 @@ public class PontoTuristico implements Serializable {
         this.imageUrl = imageUrl;
         this.lat = lat;
         this.lng = lng;
+        this.description = description;
+        this.address = address;
+        this.schedule = schedule;
     }
 
-    // 4. GETTERS E SETTERS (MANDATÓRIOS PARA O FIREBASE)
+    // GETTERS E SETTERS (MANDATÓRIOS PARA O FIREBASE)
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -65,4 +75,14 @@ public class PontoTuristico implements Serializable {
 
     public double getLng() { return lng; }
     public void setLng(double lng) { this.lng = lng; }
+
+    // GETTERS E SETTERS DOS NOVOS CAMPOS
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+
+    public String getSchedule() { return schedule; }
+    public void setSchedule(String schedule) { this.schedule = schedule; }
 }

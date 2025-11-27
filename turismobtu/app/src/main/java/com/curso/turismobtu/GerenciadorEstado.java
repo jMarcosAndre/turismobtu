@@ -22,10 +22,10 @@ public class GerenciadorEstado {
         return cachedPlaces.get(id);
     }
 
-    // --- LÓGICA DE LOGIN SIMPLIFICADA ---
+
     private boolean loggedIn = false;
-    // Mantém um ID fixo para simulação, necessário para outras funções (ex: Favoritos)
     private String currentUserId = "TEST_USER_ID_12345";
+
 
     public void setLoggedIn(boolean v) {
         loggedIn = v;
@@ -34,6 +34,7 @@ public class GerenciadorEstado {
 
     public String getCurrentUserId() { return currentUserId; }
     public boolean isLoggedIn(){ return loggedIn; }
+
 
     private final Set<String> favorites = new HashSet<>();
     public boolean isFavorite(String placeId){ return favorites.contains(placeId); }
