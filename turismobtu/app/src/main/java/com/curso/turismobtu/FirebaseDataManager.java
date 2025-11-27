@@ -34,14 +34,12 @@ public class FirebaseDataManager {
 
                 Log.d(TAG, "Conexão OK. Total de itens no nó: " + snapshot.getChildrenCount());
 
-                // Leitura do mapa para evitar erros de desserialização (melhor compatibilidade)
                 GenericTypeIndicator<Map<String, PontoTuristico>> t = new GenericTypeIndicator<Map<String, PontoTuristico>>() {};
                 Map<String, PontoTuristico> pontosMap = snapshot.getValue(t);
 
                 List<PontoTuristico> pontosList = new ArrayList<>();
 
                 if (pontosMap != null) {
-                    // Adiciona todos os valores (objetos PontoTuristico) à lista
                     pontosList.addAll(pontosMap.values());
                 } else {
                     Log.d(TAG, "Conexão OK, mas o mapa de pontos está vazio.");

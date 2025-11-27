@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.content.res.ColorStateList;
 
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -43,11 +44,13 @@ public class MapaTuristicoFragment extends Fragment implements DataLoadListener 
     private FirebaseDataManager dataManager;
     private List<PontoTuristico> currentPoints;
 
+    // LISTA CORRIGIDA
     private final List<String> categorias = Arrays.asList(
             "Todos", "Museus", "Esportes", "Cachoeiras", "Restaurantes",
-            "Parques", "Eventos", "Mirantes", "Compras"
+            "Parques", "Eventos", "Mirantes", "Religioso"
     );
 
+    // MAPA DE CORES CORRIGIDO
     private final Map<String, Integer> colorByCat = new HashMap<String, Integer>() {{
         put("Museus", 0xFF3B82F6);
         put("Esportes", 0xFF22C55E);
@@ -55,8 +58,8 @@ public class MapaTuristicoFragment extends Fragment implements DataLoadListener 
         put("Restaurantes", 0xFFFF2E8B);
         put("Parques", 0xFF84CC16);
         put("Eventos", 0xFFF97316);
-        put("Mirantes", 0xFF7C3AED);
-        put("Compras", 0xFFF59E0B);
+        put("Mirantes", 0xFF7C3AED);     // Cor de Hospedagem -> Mirantes
+        put("Religioso", 0xFFF59E0B);    // Cor de Compras -> Religioso
     }};
 
     private final ActivityResultLauncher<String> reqLocation =
@@ -80,15 +83,40 @@ public class MapaTuristicoFragment extends Fragment implements DataLoadListener 
         map = v.findViewById(R.id.osm_map);
         map.setMultiTouchControls(true);
         map.getController().setZoom(12.0);
-        map.getController().setCenter(new GeoPoint(-22.90, -47.06));
+
+        map.getController().setCenter(new GeoPoint(-22.88, -48.44));
 
         ChipGroup chips = v.findViewById(R.id.chips);
         for (String c : categorias) {
             Chip chip = new Chip(requireContext());
             chip.setText(c);
             chip.setCheckable(true);
-            chip.setChipBackgroundColorResource(android.R.color.white);
-            chip.setRippleColorResource(android.R.color.darker_gray);
+
+            // LÓGICA DE CORES DINÂMICAS PARA O CHIP
+            int color;
+            if ("Todos".equals(c)) {
+                color = 0xFF666666;
+            } else {
+                color = colorByCat.getOrDefault(c, 0xFF3B63FF);
+            }
+
+            int[][] states = new int[][] {
+                    new int[] { android.R.attr.state_checked },
+                    new int[] {}
+            };
+            int[] colors = new int[] {
+                    color,
+                    0xFFEEEEEE
+            };
+            ColorStateList colorStateList = new ColorStateList(states, colors);
+
+            chip.setChipBackgroundColor(colorStateList);
+
+            int[] textColors = new int[] {
+                    0xFFFFFFFF,
+                    color
+            };
+            chip.setTextColor(new ColorStateList(states, textColors));
 
             if ("Todos".equals(c)) chip.setChecked(true);
 

@@ -14,7 +14,6 @@ public class GerenciadorEstado {
     private Map<String, PontoTuristico> cachedPlaces = new HashMap<>();
 
     public void setCachedPlaces(List<PontoTuristico> points) {
-        // CORRIGIDO: Usando p.getId()
         cachedPlaces = points.stream()
                 .collect(Collectors.toMap(p -> p.getId(), p -> p, (p1, p2) -> p1));
     }
@@ -23,9 +22,18 @@ public class GerenciadorEstado {
         return cachedPlaces.get(id);
     }
 
+    // --- LÓGICA DE LOGIN SIMPLIFICADA ---
     private boolean loggedIn = false;
+    // Mantém um ID fixo para simulação, necessário para outras funções (ex: Favoritos)
+    private String currentUserId = "TEST_USER_ID_12345";
+
+    public void setLoggedIn(boolean v) {
+        loggedIn = v;
+        currentUserId = v ? "TEST_USER_ID_12345" : null;
+    }
+
+    public String getCurrentUserId() { return currentUserId; }
     public boolean isLoggedIn(){ return loggedIn; }
-    public void setLoggedIn(boolean v){ loggedIn = v; }
 
     private final Set<String> favorites = new HashSet<>();
     public boolean isFavorite(String placeId){ return favorites.contains(placeId); }
@@ -33,6 +41,7 @@ public class GerenciadorEstado {
         if (favorites.contains(placeId)) favorites.remove(placeId);
         else favorites.add(placeId);
     }
+
     public List<PontoTuristico> favoritePlaces(){
         return cachedPlaces.values().stream()
                 .filter(p -> favorites.contains(p.getId()))

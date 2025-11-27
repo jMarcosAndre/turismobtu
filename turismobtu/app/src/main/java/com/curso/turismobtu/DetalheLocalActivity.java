@@ -48,7 +48,6 @@ public class DetalheLocalActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_schedule))
                 .setText("Seg–Sex: 09:00–18:00 • Sáb/Dom: 10:00–17:00");
 
-        // CORRIGIDO: Usa p.getName()
         findViewById(R.id.btn_map).setOnClickListener(v ->
                 FerramentasApp.toast(this, "Abrir rotas (simulado) para: " + p.getName())
         );

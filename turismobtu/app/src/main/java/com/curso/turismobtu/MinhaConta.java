@@ -1,15 +1,19 @@
 package com.curso.turismobtu;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
+import androidx.annotation.NonNull; // Adicionado para a anotação do onCreateView
 import androidx.fragment.app.Fragment;
+
+// IMPORT FALTANDO ADICIONADO AQUI
+import android.os.Bundle;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +29,7 @@ public class MinhaConta extends Fragment {
     );
 
     @Nullable @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
 
         tvName = v.findViewById(R.id.tv_name);
@@ -33,17 +37,24 @@ public class MinhaConta extends Fragment {
         btnLoginLogout = v.findViewById(R.id.btn_login_logout);
         chipsPrefs = v.findViewById(R.id.chips_prefs);
 
-        // Render inicial
         renderUser();
 
-        // Alternar login/logout (mock igual ao Flutter)
+        // Lógica de Sair/Entrar
         btnLoginLogout.setOnClickListener(view -> {
-            boolean now = !GerenciadorEstado.get().isLoggedIn();
-            GerenciadorEstado.get().setLoggedIn(now);
-            renderUser();
+            boolean logged = GerenciadorEstado.get().isLoggedIn();
+            if (logged) {
+                // LÓGICA DE LOGOUT CORRIGIDA: Seta o estado de deslogado
+                GerenciadorEstado.get().setLoggedIn(false);
+
+                requireActivity().startActivity(new android.content.Intent(requireActivity(), InicializacaoActivity.class));
+                requireActivity().finish();
+            } else {
+                // Redireciona para a tela de Login (InicializacaoActivity)
+                requireActivity().startActivity(new android.content.Intent(requireActivity(), InicializacaoActivity.class));
+                requireActivity().finish();
+            }
         });
 
-        // Monta chips de preferências
         buildPreferenceChips();
 
         return v;
@@ -52,12 +63,12 @@ public class MinhaConta extends Fragment {
     private void renderUser() {
         boolean logged = GerenciadorEstado.get().isLoggedIn();
         if (logged) {
-            tvName.setText("Raldnei Usuária");
-            tvSub.setText("PT-BR • Preferências de categorias");
+            tvName.setText("Usuário Teste");
+            tvSub.setText("Logado para testes (ID: " + GerenciadorEstado.get().getCurrentUserId() + ")");
             btnLoginLogout.setText("Sair");
         } else {
             tvName.setText("Convidado");
-            tvSub.setText("Entrar / Criar conta");
+            tvSub.setText("Fazer Login");
             btnLoginLogout.setText("Entrar");
         }
     }
