@@ -34,12 +34,19 @@ public class ListaLocaisAdapter extends RecyclerView.Adapter<ListaLocaisAdapter.
 
     @Override public void onBindViewHolder(@NonNull VH h, int pos) {
         PontoTuristico p = data.get(pos);
-        h.title.setText(p.name);
-        h.sub.setText(p.district + " • ★ " + String.format("%.1f", p.rating));
+
+
+        h.title.setText(p.getName());
+
+
+        h.sub.setText(p.getDistrict() + " • ★ " + String.format("%.1f", p.getRating()));
+
         Glide.with(h.image.getContext())
-                .load(p.imageUrl)
+
+                .load(p.getImageUrl())
                 .centerCrop()
                 .into(h.image);
+
         h.btnMore.setOnClickListener(v -> listener.onViewMore(p));
         h.btnMap.setOnClickListener(v -> listener.onViewOnMap(p));
     }

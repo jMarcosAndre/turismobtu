@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 public class ListaLocaisActivity extends AppCompatActivity {
 
 
@@ -35,8 +33,7 @@ public class ListaLocaisActivity extends AppCompatActivity {
         String category = getIntent().getStringExtra("category");
         ((TextView) findViewById(R.id.tv_title)).setText(category);
 
-
-        ArrayList<PontoTuristico> allPoints = (ArrayList<PontoTuristico>) getIntent().getSerializableExtra("allPoints");
+        List<PontoTuristico> allPoints = (List<PontoTuristico>) getIntent().getSerializableExtra("allPoints");
 
         if (allPoints == null) {
             allPoints = new ArrayList<>();
@@ -52,17 +49,16 @@ public class ListaLocaisActivity extends AppCompatActivity {
         rv.setAdapter(new ListaLocaisAdapter(places, new ListaLocaisAdapter.OnClick() {
             @Override
             public void onViewMore(PontoTuristico p) {
-                startActivity(DetalheLocalActivity.intent(ListaLocaisActivity.this, p.id));
+                startActivity(DetalheLocalActivity.intent(ListaLocaisActivity.this, p.getId()));
             }
 
             @Override
             public void onViewOnMap(PontoTuristico p) {
-                FerramentasApp.toast(ListaLocaisActivity.this, "Ver no mapa: " + p.name);
+                FerramentasApp.toast(ListaLocaisActivity.this, "Ver no mapa: " + p.getName());
             }
         }));
 
 
-        // Filtros
         Spinner sp = findViewById(R.id.sp_order);
         findViewById(R.id.btn_apply_filters).setOnClickListener(v ->
                 FerramentasApp.toast(this, "Ordenar por: " + sp.getSelectedItem())

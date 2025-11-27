@@ -46,7 +46,7 @@ public class DescobrirFragment extends Fragment implements DataLoadListener {
 
 
         dataManager = new FirebaseDataManager();
-        dataManager.fetchAllPontos(this); // Inicia a busca de dados, que retornará em onDataLoaded
+        dataManager.fetchAllPontos(this);
 
 
         et.setOnEditorActionListener((tv, actionId, event) -> {
@@ -84,6 +84,9 @@ public class DescobrirFragment extends Fragment implements DataLoadListener {
             return;
         }
 
+        // LINHA CRÍTICA: Salva a lista na cache global para DetalheLocalActivity
+        GerenciadorEstado.get().setCachedPlaces(allPontos);
+
 
         rvCategories.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
@@ -95,18 +98,16 @@ public class DescobrirFragment extends Fragment implements DataLoadListener {
                 new TipoCategoria("Restaurantes", R.drawable.ic_favorite, 0xFFFF2E8B),
                 new TipoCategoria("Parques", R.drawable.ic_map, 0xFF84CC16),
                 new TipoCategoria("Eventos", R.drawable.ic_map, 0xFFF97316),
-                new TipoCategoria("Hospedagem", R.drawable.ic_person, 0xFF7C3AED),
+                new TipoCategoria("Mirantes", R.drawable.ic_person, 0xFF7C3AED),
                 new TipoCategoria("Compras", R.drawable.ic_map, 0xFFF59E0B)
         );
 
 
         rvCategories.setAdapter(new ListaCategorias(cats, c ->
-
                 startActivity(ListaLocaisActivity.intent(requireContext(), c.label, new ArrayList<>(allPontos)))
         ));
     }
 
-    // 6. TRATAMENTO DE ERROS DO FIREBASE
     @Override
     public void onFailure(String errorMessage) {
         FerramentasApp.toast(getContext(), "Falha ao carregar pontos: " + errorMessage);
@@ -125,7 +126,14 @@ public class DescobrirFragment extends Fragment implements DataLoadListener {
     }
 
     private void startAutoSlide(int count) {
-        // ... (seu código existente de startAutoSlide)
+        auto.postDelayed(new Runnable() {
+            @Override public void run() {
+                if (pager == null || count == 0) return;
+                page = (page + 1) % count;
+                pager.setCurrentItem(page, true);
+                auto.postDelayed(this, 4000);
+            }
+        }, 4000);
     }
 
     @Override public void onDestroyView() {

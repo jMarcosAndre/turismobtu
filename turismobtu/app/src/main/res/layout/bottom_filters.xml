@@ -26,16 +26,22 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_aberto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 style="@style/Widget.Material3.Chip.Assist"
                 android:text="Aberto agora" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_gratis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 style="@style/Widget.Material3.Chip.Assist"
                 android:text="Grátis" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_acessivel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 style="@style/Widget.Material3.Chip.Assist"
                 android:text="Acessível" />
         </com.google.android.material.chip.ChipGroup>

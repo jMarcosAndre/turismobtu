@@ -47,12 +47,13 @@ public class LocaisFavoritos extends Fragment {
             rv.setAdapter(new ListaLocaisAdapter(favs, new ListaLocaisAdapter.OnClick() {
                 @Override
                 public void onViewMore(PontoTuristico p) {
-                    startActivity(DetalheLocalActivity.intent(requireContext(), p.id));
+                    // CORRIGIDO: Usa o método público p.getId() em vez de p.id
+                    startActivity(DetalheLocalActivity.intent(requireContext(), p.getId()));
                 }
 
                 @Override
                 public void onViewOnMap(PontoTuristico p) {
-                    FerramentasApp.toast(getContext(), "Ver no mapa: " + p.name);
+                    FerramentasApp.toast(getContext(), "Ver no mapa: " + p.getName());
                 }
             }));
         }

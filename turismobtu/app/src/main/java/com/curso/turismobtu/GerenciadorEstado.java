@@ -14,8 +14,9 @@ public class GerenciadorEstado {
     private Map<String, PontoTuristico> cachedPlaces = new HashMap<>();
 
     public void setCachedPlaces(List<PontoTuristico> points) {
+        // CORRIGIDO: Usando p.getId()
         cachedPlaces = points.stream()
-                .collect(Collectors.toMap(p -> p.id, p -> p, (p1, p2) -> p1));
+                .collect(Collectors.toMap(p -> p.getId(), p -> p, (p1, p2) -> p1));
     }
 
     public PontoTuristico getPontoById(String id) {
@@ -34,7 +35,7 @@ public class GerenciadorEstado {
     }
     public List<PontoTuristico> favoritePlaces(){
         return cachedPlaces.values().stream()
-                .filter(p -> favorites.contains(p.id))
+                .filter(p -> favorites.contains(p.getId()))
                 .collect(Collectors.toList());
     }
 }

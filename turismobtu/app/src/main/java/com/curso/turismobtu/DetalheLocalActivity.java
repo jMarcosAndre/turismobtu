@@ -35,34 +35,32 @@ public class DetalheLocalActivity extends AppCompatActivity {
         }
 
         ImageView img = findViewById(R.id.img);
-        Glide.with(this).load(p.imageUrl).centerCrop().into(img);
+        Glide.with(this).load(p.getImageUrl()).centerCrop().into(img);
 
-        ((TextView) findViewById(R.id.title)).setText(p.name);
-        ((TextView) findViewById(R.id.sub)).setText("★ " + String.format("%.1f", p.rating) + " • " + p.district);
+        ((TextView) findViewById(R.id.title)).setText(p.getName());
+        ((TextView) findViewById(R.id.sub)).setText("★ " + String.format("%.1f", p.getRating()) + " • " + p.getDistrict());
 
 
         ((TextView) findViewById(R.id.tv_about))
                 .setText("Um local imperdível para quem visita a cidade. Estrutura completa e experiências para todas as idades.");
         ((TextView) findViewById(R.id.tv_address))
-                .setText("Bairro " + p.district + " – Próximo a pontos de ônibus e estacionamentos.");
+                .setText("Bairro " + p.getDistrict() + " – Próximo a pontos de ônibus e estacionamentos.");
         ((TextView) findViewById(R.id.tv_schedule))
                 .setText("Seg–Sex: 09:00–18:00 • Sáb/Dom: 10:00–17:00");
 
+        // CORRIGIDO: Usa p.getName()
         findViewById(R.id.btn_map).setOnClickListener(v ->
-                FerramentasApp.toast(this, "Abrir rotas (simulado) para: " + p.name)
-        );
-
-        MaterialButton btnAr = findViewById(R.id.btn_ar);
-        btnAr.setOnClickListener(v ->
-                startActivity(ExperienciaARA.intent(this, p.name))
+                FerramentasApp.toast(this, "Abrir rotas (simulado) para: " + p.getName())
         );
 
         MaterialButton btnFav = findViewById(R.id.btn_fav);
-        boolean isFav = GerenciadorEstado.get().isFavorite(p.id);
+
+        boolean isFav = GerenciadorEstado.get().isFavorite(p.getId());
         updateFavButton(btnFav, isFav);
         btnFav.setOnClickListener(v -> {
-            GerenciadorEstado.get().toggleFavorite(p.id);
-            boolean nowFav = GerenciadorEstado.get().isFavorite(p.id);
+
+            GerenciadorEstado.get().toggleFavorite(p.getId());
+            boolean nowFav = GerenciadorEstado.get().isFavorite(p.getId());
             updateFavButton(btnFav, nowFav);
             FerramentasApp.toast(this, nowFav ? "Adicionado aos favoritos" : "Removido dos favoritos");
         });
