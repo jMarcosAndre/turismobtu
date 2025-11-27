@@ -166,13 +166,6 @@
 
             <View android:layout_width="match_parent" android:layout_height="8dp"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_ar"
-                style="?attr/materialButtonOutlinedStyle"
-                android:text="Experiência AR (mock)"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
             <View android:layout_width="match_parent" android:layout_height="8dp"/>
 
             <com.google.android.material.button.MaterialButton

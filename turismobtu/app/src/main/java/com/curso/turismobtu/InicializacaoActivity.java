@@ -11,7 +11,6 @@ public class InicializacaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
         findViewById(R.id.btn_login).setOnClickListener(v -> {
 
             GerenciadorEstado.get().setLoggedIn(true);
@@ -19,8 +18,8 @@ public class InicializacaoActivity extends AppCompatActivity {
             finish();
         });
 
-        findViewById(R.id.btn_guest).setOnClickListener(v -> {
 
+        findViewById(R.id.btn_guest).setOnClickListener(v -> {
             GerenciadorEstado.get().setLoggedIn(false);
             startActivity(new Intent(this, MainActivity.class));
             finish();

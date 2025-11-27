@@ -1,6 +1,6 @@
 package com.curso.turismobtu;
 
-import android.content.Intent; // Importe o Intent
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,18 +42,19 @@ public class MinhaConta extends Fragment {
         btnLoginLogout.setOnClickListener(view -> {
             boolean logged = GerenciadorEstado.get().isLoggedIn();
 
-
             if (logged) {
                 GerenciadorEstado.get().setLoggedIn(false);
             } else {
 
             }
 
-
+            // Redireciona sempre para o início para resetar o estado
             Intent intent = new Intent(requireActivity(), InicializacaoActivity.class);
             requireActivity().startActivity(intent);
             requireActivity().finish();
         });
+
+        buildPreferenceChips();
 
         return v;
     }
@@ -77,4 +78,24 @@ public class MinhaConta extends Fragment {
         }
     }
 
+    private void buildPreferenceChips() {
+        chipsPrefs.removeAllViews();
+
+        for (String c : categories) {
+            Chip chip = new Chip(requireContext(), null, com.google.android.material.R.style.Widget_Material3_Chip_Filter);
+            chip.setText(c);
+            chip.setCheckable(true);
+
+
+            if ("Restaurantes".equals(c) || "Parques".equals(c)) {
+                chip.setChecked(true);
+            }
+
+            chip.setOnClickListener(v -> {
+
+            });
+
+            chipsPrefs.addView(chip);
+        }
+    }
 }

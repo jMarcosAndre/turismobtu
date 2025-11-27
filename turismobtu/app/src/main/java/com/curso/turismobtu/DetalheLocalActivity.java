@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.DialogInterface;
+import android.net.Uri;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
@@ -52,13 +55,24 @@ public class DetalheLocalActivity extends AppCompatActivity {
 
 
         findViewById(R.id.btn_map).setOnClickListener(v -> {
-            Intent mapIntent = new Intent(this, MainActivity.class);
-            mapIntent.putExtra("NAVIGATE_TO_MAP", true);
-            mapIntent.putExtra("TARGET_LAT", p.getLat());
-            mapIntent.putExtra("TARGET_LNG", p.getLng());
-            mapIntent.putExtra("TARGET_NAME", p.getName());
 
-            startActivity(mapIntent);
+            final CharSequence[] options = {"Ver no Mapa do App", "Navegar com WAZE/Maps"};
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Opções de Navegação")
+                    .setItems(options, (dialog, item) -> {
+                        if (item == 0) {
+                            Intent mapIntent = new Intent(this, MainActivity.class);
+                            mapIntent.putExtra("NAVIGATE_TO_MAP", true);
+                            mapIntent.putExtra("TARGET_LAT", p.getLat());
+                            mapIntent.putExtra("TARGET_LNG", p.getLng());
+                            mapIntent.putExtra("TARGET_NAME", p.getName());
+                            startActivity(mapIntent);
+                        } else if (item == 1) {
+                            FerramentasApp.openWaze(this, p.getLat(), p.getLng());
+                        }
+                    })
+                    .show();
         });
 
         MaterialButton btnFav = findViewById(R.id.btn_fav);

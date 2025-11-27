@@ -80,11 +80,11 @@ public class DescobrirFragment extends Fragment implements DataLoadListener {
     @Override
     public void onDataLoaded(List<PontoTuristico> allPontos) {
         if (rvCategories == null || allPontos.isEmpty()) {
-            FerramentasApp.toast(getContext(), "Nenhum ponto turístico carregado.");
+            FerramentasApp.toast((DetalheLocalActivity) getContext(), "Nenhum ponto turístico carregado.");
             return;
         }
 
-        // LINHA CRÍTICA: Salva a lista na cache global para DetalheLocalActivity
+
         GerenciadorEstado.get().setCachedPlaces(allPontos);
 
 
@@ -110,7 +110,7 @@ public class DescobrirFragment extends Fragment implements DataLoadListener {
 
     @Override
     public void onFailure(String errorMessage) {
-        FerramentasApp.toast(getContext(), "Falha ao carregar pontos: " + errorMessage);
+        FerramentasApp.toast((DetalheLocalActivity) getContext(), "Falha ao carregar pontos: " + errorMessage);
     }
 
 

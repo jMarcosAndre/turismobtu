@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
+
         <TextView
             android:text="Filtros rápidos"
             android:textStyle="bold"
@@ -24,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:singleSelection="true">
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_aberto"
                 android:layout_width="wrap_content"
