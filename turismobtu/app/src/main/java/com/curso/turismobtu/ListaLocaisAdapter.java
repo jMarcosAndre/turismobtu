@@ -47,8 +47,14 @@ public class ListaLocaisAdapter extends RecyclerView.Adapter<ListaLocaisAdapter.
                 .centerCrop()
                 .into(h.image);
 
-        h.btnMore.setOnClickListener(v -> listener.onViewMore(p));
-        h.btnMap.setOnClickListener(v -> listener.onViewOnMap(p));
+
+        if (h.btnMore != null) {
+            h.btnMore.setOnClickListener(v -> listener.onViewMore(p));
+        }
+
+        if (h.btnMap != null) {
+            h.btnMap.setOnClickListener(v -> listener.onViewOnMap(p));
+        }
     }
 
     @Override public int getItemCount() { return data.size(); }
@@ -60,6 +66,9 @@ public class ListaLocaisAdapter extends RecyclerView.Adapter<ListaLocaisAdapter.
             image = v.findViewById(R.id.img);
             title = v.findViewById(R.id.title);
             sub = v.findViewById(R.id.subtitle);
+            // btnMore deve ser encontrado
+            btnMore = v.findViewById(R.id.btn_more);
+            // btnMap é nulo (removido), o que causava o crash antes do if
             btnMap = v.findViewById(R.id.btn_map);
         }
     }
